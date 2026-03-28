@@ -81,7 +81,7 @@ const Moon3D = () => {
     tl.to(moon.position, { y: 1, x: 3, z: -2, ease: "power1.inOut" }, 0)
       .to(directionalLight.position, { x: 0, y: 0, z: 20 }, 0) // Front lighting
       .to(moon.scale, { x: 1, y: 1, z: 1 }, 0)
-      .to(directionalLight, { intensity: 3.8, ease: "power2.inOut" }, 0.1); // Bright enough for mix-blend-difference to invert text to black
+      .to(directionalLight, { intensity: 4.5, ease: "power2.inOut" }, 0.1); // Max contrast for mix-blend-difference
 
     // Final: Descent to footer — fade out completely
     tl.to(moon.position, { y: -6, x: -3, z: 0, ease: "power2.inOut" }, 0.45)

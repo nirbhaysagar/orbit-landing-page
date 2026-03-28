@@ -35,7 +35,7 @@ const AboutSection = () => {
       >
         {/* Central Core Text */}
         <div className="absolute z-20 text-center pointer-events-none translate-y-[210px] mix-blend-difference">
-          <p className="text-xl md:text-3xl font-light text-white leading-relaxed tracking-tight mix-blend-difference">
+          <p className="text-xl md:text-3xl font-light text-white leading-relaxed tracking-tight mix-blend-difference opacity-70">
             One prompt. Five agents.
           </p>
           <div className="bg-gradient-to-r from-[#C084FC] via-[#F472B6] to-[#FB923C] bg-clip-text text-transparent font-black text-4xl md:text-7xl uppercase tracking-tighter mt-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.3)]">
@@ -123,7 +123,7 @@ const AboutSection = () => {
                   {item.label}
                 </h5>
                 
-                <p className="text-[11px] text-white/40 group-hover:text-white/80 transition-colors uppercase tracking-[0.05em] leading-relaxed mix-blend-difference">
+                <p className="text-[13px] text-white/70 group-hover:text-white transition-colors uppercase tracking-[0.05em] leading-relaxed mix-blend-difference">
                   {item.text}
                 </p>
 
