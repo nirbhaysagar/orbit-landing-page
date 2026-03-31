@@ -15,22 +15,54 @@ const AboutSection = () => {
       className="bg-transparent py-10 md:py-16 relative flex flex-col items-center select-none"
       onMouseMove={handleMouseMove}
     >
-      <div className="relative z-10 mb-14 text-center">
+      <div className="relative z-10 mb-14 text-center px-4">
         <span className="text-[10px] uppercase tracking-[0.5em] text-white/30 mb-4 block font-medium">HOW IT WORKS // 001</span>
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-white leading-[0.9] mb-6">
           From prompt to <span className="bg-gradient-to-r from-[#C084FC] via-[#F472B6] to-[#FB923C] bg-clip-text text-transparent">production.</span>
         </h2>
-        <p className="text-base md:text-lg text-white/50 max-w-2xl font-light leading-relaxed mx-auto">
+        <p className="text-sm md:text-lg text-white/50 max-w-2xl font-light leading-relaxed mx-auto">
           Describe what you want in plain English. Orbit's multi-agent system plans the architecture, generates every component, validates the output, and serves a live preview — all in one shot.
         </p>
       </div>
 
-      {/* Arc Container - Using non-isolating positioning for blending */}
+      {/* Mobile Modules View */}
+      <div className="flex md:hidden flex-col gap-6 px-6 w-full relative z-10">
+        {[
+          { step: "01", label: "Describe", text: "Turns prompt into task graph" },
+          { step: "02", label: "Planner", text: "Maps component dependencies" },
+          { step: "03", label: "Reasoner", text: "Decides logic composition" },
+          { step: "04", label: "Executor", text: "Emits real file writes" },
+          { step: "05", label: "Pre-flight", text: "Scans for bad imports" },
+          { step: "06", label: "AutoHealer", text: "Patches failure in 0.8s" },
+          { step: "07", label: "Running App", text: "Production-ready code" },
+        ].map((item, idx) => (
+          <div 
+            key={idx} 
+            className="p-6 rounded-2xl bg-white/[0.05] border border-white/10 flex flex-col gap-2"
+          >
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-[9px] font-mono tracking-[0.3em] text-white/30 uppercase">SYS // {item.step}</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-green-400/40 animate-pulse" />
+            </div>
+            <h5 className="text-white text-xl font-black uppercase tracking-tighter">{item.label}</h5>
+            <p className="text-sm text-white/60 uppercase tracking-tight">{item.text}</p>
+          </div>
+        ))}
+
+        <div className="mt-8 text-center py-10 bg-gradient-to-b from-white/[0.02] to-transparent rounded-3xl border border-white/5">
+          <p className="text-lg font-light text-white/60 tracking-tight">One prompt. Five agents.</p>
+          <div className="bg-gradient-to-r from-[#C084FC] via-[#F472B6] to-[#FB923C] bg-clip-text text-transparent font-black text-4xl uppercase tracking-tighter mt-1">
+            A live app.
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Arc Container */}
       <div 
-        className="relative w-full max-w-7xl h-[650px] flex items-center justify-center "
+        className="hidden md:flex relative w-full max-w-7xl h-[650px] items-center justify-center "
         style={{
           marginLeft: `${mousePos.x * 0.4}px`,
-          marginTop: `${mousePos.y * 0.6}px`, // Increased for more vertical motion
+          marginTop: `${mousePos.y * 0.6}px`,
         }}
       >
         {/* Central Core Text */}
@@ -83,7 +115,7 @@ const AboutSection = () => {
             const x = Math.sin(radian) * radius;
             const y = (1 - Math.cos(radian)) * (radius * 0.7) - 100;
             const z = Math.cos(radian) * -200 + 100;
-            const scale = 1.05 + (Math.cos(radian) * 0.05); // unified scale factor
+            const scale = 1.05 + (Math.cos(radian) * 0.05);
             
             const w = 240 * scale;
             const h = 300 * scale;
@@ -143,10 +175,10 @@ const AboutSection = () => {
       </div>
 
       {/* Scrolling marquee */}
-      <div className="mt-10 overflow-hidden py-7 w-full border-t border-white/5">
+      <div className="mt-10 md:mt-10 overflow-hidden py-7 w-full border-t border-white/5">
         <div className="flex animate-marquee whitespace-nowrap gap-8">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex items-center gap-8 text-3xl md:text-4xl font-black font-inter tracking-tighter uppercase text-white/10">
+            <div key={i} className="flex items-center gap-8 text-2xl md:text-4xl font-black font-inter tracking-tighter uppercase text-white/10">
               <span>Websites</span>
               <span className="text-white/5 text-lg">●</span>
               <span>Web Apps</span>

@@ -20,8 +20,8 @@ const Index = () => {
       </div>
 
       {/* Layer 2: Main Content - REMOVED z-10 for cross-context blending */}
-      <main className="w-full pt-18 flex flex-col gap-[45px]">
-        <div className="px-[112px] flex flex-col gap-[45px]">
+      <main className="w-full pt-18 flex flex-col gap-[30px] md:gap-[45px]">
+        <div className="px-6 md:px-[112px] flex flex-col gap-[30px] md:gap-[45px]">
           <Navbar />
           <HeroSection />
           <AboutSection />

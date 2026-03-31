@@ -64,31 +64,62 @@ const Moon3D = () => {
     animate();
 
     // --- GSAP Scroll Choreography ---
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "body",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 2,
-      },
+    const mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)",
+    }, (context) => {
+      const { isDesktop } = context.conditions as any;
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "body",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 2,
+        },
+      });
+
+      // State-based positioning
+      if (isDesktop) {
+        // Desktop: Large crescent hanging at the bottom
+        gsap.set(moon.position, { y: -5, x: 0, z: 2 });
+        gsap.set(moon.scale, { x: 1.5, y: 1.5, z: 1.5 });
+
+        // Transition: Rise and become full (Initial burst)
+        tl.to(moon.position, { y: 1, x: 3, z: -2, ease: "power1.inOut" }, 0)
+          .to(directionalLight.position, { x: 0, y: 0, z: 20 }, 0) // Front lighting
+          .to(moon.scale, { x: 1, y: 1, z: 1 }, 0)
+          .to(directionalLight, { intensity: 4.5, ease: "power2.inOut" }, 0.1);
+
+        // Final: Descent to footer
+        tl.to(moon.position, { y: -6, x: -3, z: 0, ease: "power2.inOut" }, 0.45)
+          .to(moon.scale, { x: 0.8, y: 0.8, z: 0.8 }, 0.45)
+          .to(directionalLight.position, { x: -15, y: -10, z: 5 }, 0.45)
+          .to(directionalLight, { intensity: 0, ease: "power1.inOut" }, 0.45)
+          .to(material, { opacity: 0, ease: "power3.in" }, 0.45);
+      } else {
+        // Mobile: Centered, smaller, less horizontal travel
+        gsap.set(moon.position, { y: -4, x: 0, z: 1 });
+        gsap.set(moon.scale, { x: 0.8, y: 0.8, z: 0.8 });
+
+        tl.to(moon.position, { y: 1.5, x: 0, z: -3, ease: "power1.inOut" }, 0)
+          .to(directionalLight.position, { x: 0, y: 0, z: 15 }, 0)
+          .to(moon.scale, { x: 0.6, y: 0.6, z: 0.6 }, 0)
+          .to(directionalLight, { intensity: 3, ease: "power2.inOut" }, 0.1);
+
+        tl.to(moon.position, { y: -5, x: 0, z: 0, ease: "power2.inOut" }, 0.45)
+          .to(moon.scale, { x: 0.4, y: 0.4, z: 0.4 }, 0.45)
+          .to(directionalLight.position, { x: -5, y: -5, z: 5 }, 0.45)
+          .to(directionalLight, { intensity: 0, ease: "power1.inOut" }, 0.45)
+          .to(material, { opacity: 0, ease: "power3.in" }, 0.45);
+      }
+
+      return () => {
+        tl.kill();
+      };
     });
-
-    // Initial State: Large crescent hanging at the bottom
-    gsap.set(moon.position, { y: -5, x: 0, z: 2 });
-    gsap.set(moon.scale, { x: 1.5, y: 1.5, z: 1.5 });
-
-    // Transition: Rise and become full (Initial burst)
-    tl.to(moon.position, { y: 1, x: 3, z: -2, ease: "power1.inOut" }, 0)
-      .to(directionalLight.position, { x: 0, y: 0, z: 20 }, 0) // Front lighting
-      .to(moon.scale, { x: 1, y: 1, z: 1 }, 0)
-      .to(directionalLight, { intensity: 4.5, ease: "power2.inOut" }, 0.1); // Max contrast for mix-blend-difference
-
-    // Final: Descent to footer — fade out completely
-    tl.to(moon.position, { y: -6, x: -3, z: 0, ease: "power2.inOut" }, 0.45)
-      .to(moon.scale, { x: 0.8, y: 0.8, z: 0.8 }, 0.45)
-      .to(directionalLight.position, { x: -15, y: -10, z: 5 }, 0.45)
-      .to(directionalLight, { intensity: 0, ease: "power1.inOut" }, 0.45)
-      .to(material, { opacity: 0, ease: "power3.in" }, 0.45);
 
     // --- Resize Handler ---
     const handleResize = () => {
@@ -102,8 +133,7 @@ const Moon3D = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
       renderer.dispose();
-      tl.kill();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      mm.revert();
       if (containerRef.current) {
         containerRef.current.removeChild(renderer.domElement);
       }
